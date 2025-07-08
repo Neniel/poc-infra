@@ -4,7 +4,7 @@ metadata:
   name: example-project
   namespace: argocd
 spec:
-  description: Proyecto para el microservicio example-project
+  description: Proyecto para los microservicios de example-project
   sourceRepos:
     - 'https://github.com/Neniel/poc-infra.git'
   destinations:
