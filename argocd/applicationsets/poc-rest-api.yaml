@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    # Se utiliza el generador 'merge' para combinar la salida de múltiples generadores.
+    # El generador 'merge' sigue siendo la estrategia correcta.
     - merge:
         mergeKeys:
           - path.basename
@@ -16,15 +16,12 @@ spec:
               revision: HEAD
               directories:
                 - path: 'apps/poc-rest-api/overlays/*'
-          # 2. Generador List: Define parámetros específicos solo para 'dev'.
+          # 2. Generador List: Define los valores que se deben aplicar a 'dev'.
           - list:
               elements:
-                - path.basename: dev # Clave para el merge: coincide con la salida del generador git
-                  # Los siguientes parámetros se agregarán solo a la app 'dev'
-                  syncPolicy:
-                    automated:
-                      prune: true
-                      selfHeal: true
+                - path.basename: dev
+                  # En lugar de un objeto completo, pasamos los valores individuales.
+                  isDev: "true"
   template:
     metadata:
       name: 'poc-rest-api-{{path.basename}}'
@@ -41,10 +38,10 @@ spec:
         server: 'https://kubernetes.default.svc'
         namespace: 'poc-rest-api-{{path.basename}}'
 
-      # Bloque condicional: Se inserta el syncPolicy solo si el parámetro existe.
-      {{- if .syncPolicy }}
+      # CORRECCIÓN: El bloque syncPolicy siempre existe, pero sus valores son condicionales.
+      # Esto asegura que el YAML siempre sea sintácticamente válido.
       syncPolicy:
         automated:
-          prune: {{ .syncPolicy.automated.prune }}
-          selfHeal: {{ .syncPolicy.automated.selfHeal }}
-      {{- end }}
+          # Si 'isDev' es true (solo para dev), usa 'true'. Si no, usa el valor por defecto 'false'.
+          prune: '{{ default "false" .isDev }}'
+          selfHeal: '{{ default "false" .isDev }}'
