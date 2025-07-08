@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: poc-rest-api
-          image: ghcr.io/neniel/poc-rest-api:0.0.3
+          image: ghcr.io/neniel/poc-rest-api:0.0.2
           env:
             - name: ENVIRONMENT
               value: "prod"
