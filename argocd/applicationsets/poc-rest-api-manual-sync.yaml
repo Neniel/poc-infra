@@ -9,7 +9,7 @@ spec:
         repoURL: 'https://github.com/Neniel/poc-infra.git'
         revision: HEAD
         directories:
-          - path: 'apps/poc-rest-api/overlays/prod'
+          - path: 'argocd/apps/poc-rest-api/overlays/prod'
   template:
     metadata:
       name: 'poc-rest-api-{{path.basename}}'
