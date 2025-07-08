@@ -29,7 +29,7 @@ spec:
         app: poc-rest-api
         environment: '{{path.basename}}'
     spec:
-      project: poc-rest-api
+      project: example-project
       source:
         repoURL: 'https://github.com/Neniel/poc-infra.git'
         targetRevision: HEAD
