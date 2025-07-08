@@ -21,7 +21,7 @@ spec:
               elements:
                 - path.basename: dev
                   # En lugar de un objeto completo, pasamos los valores individuales.
-                  isDev: "true"
+                  isDev: true
   template:
     metadata:
       name: 'poc-rest-api-{{path.basename}}'
@@ -43,5 +43,5 @@ spec:
       syncPolicy:
         automated:
           # Si 'isDev' es true (solo para dev), usa 'true'. Si no, usa el valor por defecto 'false'.
-          prune: '{{ default "false" .isDev }}'
-          selfHeal: '{{ default "false" .isDev }}'
+          prune: '{{ default false .isDev }}'
+          selfHeal: '{{ default false .isDev }}'
