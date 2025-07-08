@@ -3,6 +3,8 @@ kind: AppProject
 metadata:
   name: example-project
   namespace: argocd
+  labels:
+    scope: infra
 spec:
   description: Proyecto para los microservicios de example-project
   sourceRepos:

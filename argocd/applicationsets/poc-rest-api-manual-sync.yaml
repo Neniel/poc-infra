@@ -14,6 +14,7 @@ spec:
     metadata:
       name: 'poc-rest-api-{{path.basename}}'
       labels:
+        scope: app
         app: poc-rest-api
         environment: '{{path.basename}}'
     spec:
