@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: poc-rest-api
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: 'https://github.com/tu-org/poc-infra.git'
+        revision: HEAD
+        directories:
+          - path: 'apps/poc-rest-api/overlays/*'
+  template:
+    metadata:
+      name: 'poc-rest-api-{{path.basename}}'
+      labels:
+        app: poc-rest-api
+        environment: '{{path.basename}}'
+    spec:
+      project: poc-rest-api
+      source:
+        repoURL: 'https://github.com/tu-org/poc-infra.git'
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: 'poc-rest-api-{{path.basename}}'
+      syncPolicy:
+        {{- if eq path.basename "dev" }}
+        automated:
+          prune: true
+          selfHeal: true
+        {{- end }}
