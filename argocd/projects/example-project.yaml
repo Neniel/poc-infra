@@ -8,7 +8,7 @@ spec:
   sourceRepos:
     - 'https://github.com/Neniel/poc-infra.git'
   destinations:
-    - namespace: 'example-project-*'
+    - namespace: '*'
       server: 'https://kubernetes.default.svc'
   clusterResourceWhitelist:
     - group: '*'
