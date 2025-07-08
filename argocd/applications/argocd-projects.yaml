@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/Neniel/poc-infra.git'
     targetRevision: HEAD
-    path: projects
+    path: argocd/projects
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
