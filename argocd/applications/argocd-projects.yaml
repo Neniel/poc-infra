@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: argocd-projects
   namespace: argocd
-  labels:
-    scope: infra
 spec:
   project: default
   source:
