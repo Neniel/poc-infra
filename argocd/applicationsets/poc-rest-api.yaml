@@ -43,5 +43,5 @@ spec:
       syncPolicy:
         automated:
           # Si 'isDev' es true (solo para dev), usa 'true'. Si no, usa el valor por defecto 'false'.
-          prune: '{{ default false .isDev }}'
-          selfHeal: '{{ default false .isDev }}'
+          prune: {{ if .isDev true else false}}
+          selfHeal: {{ if .isDev true else false }}
