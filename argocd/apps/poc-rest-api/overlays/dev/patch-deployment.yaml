@@ -13,7 +13,7 @@ spec:
             - name: ENVIRONMENT
               value: "dev"
             - name: VERSION
-              value: "0.0.3-rc.1"
+              value: "0.0.2-rc.1"
           # Usamos límites de recursos más bajos para dev
           resources:
             requests:
