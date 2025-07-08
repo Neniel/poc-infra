@@ -5,11 +5,26 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - git:
-        repoURL: 'https://github.com/tu-org/poc-infra.git'
-        revision: HEAD
-        directories:
-          - path: 'apps/poc-rest-api/overlays/*'
+    # Se utiliza el generador 'merge' para combinar la salida de múltiples generadores.
+    - merge:
+        mergeKeys:
+          - path.basename
+        generators:
+          # 1. Generador Git: Descubre todos los directorios/entornos.
+          - git:
+              repoURL: 'https://github.com/Neniel/poc-infra.git'
+              revision: HEAD
+              directories:
+                - path: 'apps/poc-rest-api/overlays/*'
+          # 2. Generador List: Define parámetros específicos solo para 'dev'.
+          - list:
+              elements:
+                - path.basename: dev # Clave para el merge: coincide con la salida del generador git
+                  # Los siguientes parámetros se agregarán solo a la app 'dev'
+                  syncPolicy:
+                    automated:
+                      prune: true
+                      selfHeal: true
   template:
     metadata:
       name: 'poc-rest-api-{{path.basename}}'
@@ -19,15 +34,17 @@ spec:
     spec:
       project: poc-rest-api
       source:
-        repoURL: 'https://github.com/tu-org/poc-infra.git'
+        repoURL: 'https://github.com/Neniel/poc-infra.git'
         targetRevision: HEAD
         path: '{{path}}'
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: 'poc-rest-api-{{path.basename}}'
+
+      # Bloque condicional: Se inserta el syncPolicy solo si el parámetro existe.
+      {{- if .syncPolicy }}
       syncPolicy:
-        {{- if eq path.basename "dev" }}
         automated:
-          prune: true
-          selfHeal: true
-        {{- end }}
+          prune: {{ .syncPolicy.automated.prune }}
+          selfHeal: {{ .syncPolicy.automated.selfHeal }}
+      {{- end }}
