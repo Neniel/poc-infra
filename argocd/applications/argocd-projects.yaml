@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/tu-org/poc-infra.git'
+    repoURL: 'https://github.com/Neniel/poc-infra.git'
     targetRevision: HEAD
     path: projects
   destination:
